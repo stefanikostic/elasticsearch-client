@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.2.2</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.shopcompare</groupId>
+	<artifactId>elasticsearch-client</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>elasticsearch-client</name>
+	<description>Project for Elasticsearch client for shop compare</description>
+    <modules>
+        <module>elasticsearch-client-indexing</module>
+		<module>elasticsearch-client-search</module>
+		<module>elasticsearch-client-commons</module>
+	</modules>
+    <properties>
+		<java.version>17</java.version>
+		<spring.version>3.2.2</spring.version>
+		<elasticsearch.version>8.10.4</elasticsearch.version>
+		<lombok.version>1.18.30</lombok.version>
+		<jackson-databind.version>2.15.3</jackson-databind.version>
+		<module.version>0.0.1-SNAPSHOT</module.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.shopcompare</groupId>
+				<artifactId>elasticsearch-client-indexing</artifactId>
+				<version>${module.version}</version>
+			</dependency>
+            <dependency>
+                <groupId>com.shopcompare</groupId>
+                <artifactId>elasticsearch-client-search</artifactId>
+                <version>${module.version}</version>
+            </dependency>
+            <dependency>
+				<groupId>com.shopcompare</groupId>
+				<artifactId>elasticsearch-client-commons</artifactId>
+				<version>${module.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>co.elastic.clients</groupId>
+				<artifactId>elasticsearch-java</artifactId>
+				<version>${elasticsearch.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson-databind.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-test</artifactId>
+				<scope>test</scope>
+				<version>${spring.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+</project>
