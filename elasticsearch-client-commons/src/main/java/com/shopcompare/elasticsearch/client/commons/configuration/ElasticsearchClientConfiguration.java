@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class ElasticsearchClientConfiguration {
 
-    private final ElasticSearchClientProperties elasticSearchClientProperties;
+    private final ElasticsearchClientProperties elasticSearchClientProperties;
     private static final String HTTPS_SCHEME = "https";
 
     @Bean

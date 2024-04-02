@@ -21,7 +21,7 @@ import java.io.File;
 @RequiredArgsConstructor
 class HttpClientConfigCallbackImpl implements RestClientBuilder.HttpClientConfigCallback {
 
-    private final ElasticSearchClientProperties elasticSearchClientProperties;
+    private final ElasticsearchClientProperties elasticSearchClientProperties;
 
     /**
      * Custom HttpClient configured for Elasticsearch use.

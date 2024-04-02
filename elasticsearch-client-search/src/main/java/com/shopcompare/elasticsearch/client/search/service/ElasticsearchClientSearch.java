@@ -1,7 +1,6 @@
 package com.shopcompare.elasticsearch.client.search.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch._types.query_dsl.MatchAllQuery;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.shopcompare.elasticsearch.client.commons.model.Category;

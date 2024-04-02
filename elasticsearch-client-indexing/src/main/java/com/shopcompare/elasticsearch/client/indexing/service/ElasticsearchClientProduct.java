@@ -30,8 +30,9 @@ public class ElasticsearchClientProduct {
      * Transforms the map of list of {@link Product} into {@link ProductsDocument} and performs bulk index of
      * {@link ProductsDocument}.
      *
-     * @param products
-     * @throws IOException
+     * @param products map of list of products by product name.
+     *
+     * @throws IOException in case error occurs during indexing product data.
      */
     public void indexProductData(Map<String, List<Product>> products) throws IOException {
         BulkRequest.Builder br = new BulkRequest.Builder();

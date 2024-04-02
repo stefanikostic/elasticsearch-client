@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @ConfigurationProperties("elasticsearch-client")
 @Configuration
-public class ElasticSearchClientProperties {
+public class ElasticsearchClientProperties {
 
     private String hostName = "localhost";
     private int port = 9200;
