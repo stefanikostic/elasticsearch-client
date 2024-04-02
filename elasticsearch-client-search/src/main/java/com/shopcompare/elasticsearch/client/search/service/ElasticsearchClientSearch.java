@@ -1,8 +1,10 @@
 package com.shopcompare.elasticsearch.client.search.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.query_dsl.MatchAllQuery;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import com.shopcompare.elasticsearch.client.commons.model.Category;
 import com.shopcompare.elasticsearch.client.commons.model.Product;
 import com.shopcompare.elasticsearch.client.commons.model.ProductsDocument;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Elasticsearch client service that provides search operations of products and categories indexes.
+ */
 @Service
 @RequiredArgsConstructor
 public class ElasticsearchClientSearch {
@@ -62,5 +67,19 @@ public class ElasticsearchClientSearch {
         }
 
         return products;
+    }
+
+    public List<Category> getCategories() throws IOException {
+        SearchResponse<Category> searchResponse = elasticsearchClient.search(s -> s
+                .index("categories")
+                .size(MAX_SIZE_RECORDS)
+                .query(q -> q.matchAll(maq -> maq.queryName("categories"))), Category.class);
+        List<Hit<Category>> categoryHits = searchResponse.hits().hits();
+        List<Category> categories = new ArrayList<>();
+        for (Hit<Category> categoryHit : categoryHits) {
+            Category category = categoryHit.source();
+            categories.add(category);
+        }
+        return categories;
     }
 }

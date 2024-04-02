@@ -6,6 +6,18 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.Date;
 
+/**
+ * Class representing Product details.
+ * @param name product name.
+ * @param shopName name of the shop where the product belongs to.
+ * @param category category name of the product.
+ * @param link URL to the product view.
+ * @param image link to product image resource.
+ * @param isAvailable states whether product is in stock.
+ * @param originalPrice initial price of the product.
+ * @param promotionalPrice promotional price of the product on sale.
+ * @param timestamp timestamp when the product has been entered into Elasticsearch.
+ */
 public record Product(@Id String name,
                       @Field(type = FieldType.Text, name = "shopName")
                       String shopName,

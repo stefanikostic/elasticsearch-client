@@ -1,5 +1,6 @@
 package com.shopcompare.elasticsearch.client.commons.configuration;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -13,27 +14,31 @@ import org.elasticsearch.client.RestClientBuilder;
 import javax.net.ssl.SSLContext;
 import java.io.File;
 
+/**
+ * {@link RestClientBuilder.HttpClientConfigCallback} custom implementation that provides http client for Elasticsearch.
+ */
 @Slf4j
+@RequiredArgsConstructor
 class HttpClientConfigCallbackImpl implements RestClientBuilder.HttpClientConfigCallback {
 
-    private static final String ELASTIC_USERNAME = "elastic";
-    private static final String ELASTIC_PASSWORD = "TI9rqj3xl_jdvxGcaaFa";
-    private static final String PASSWORD_STRING = "password";
-    private static final String TRUST_STORE_LOCATION = "C:\\Users\\skostikj\\Downloads\\elasticsearch-8.12" +
-            ".1-windows-x86_64\\elasticsearch-8.12.1\\config\\certs\\truststore.p12";
+    private final ElasticSearchClientProperties elasticSearchClientProperties;
 
+    /**
+     * Custom HttpClient configured for Elasticsearch use.
+     */
     @Override
     public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpAsyncClientBuilder) {
         try {
             final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-            UsernamePasswordCredentials usernamePasswordCredentials = new UsernamePasswordCredentials(ELASTIC_USERNAME,
-                    ELASTIC_PASSWORD);
+            UsernamePasswordCredentials usernamePasswordCredentials = new UsernamePasswordCredentials(
+                    elasticSearchClientProperties.getElasticUsername(),
+                    elasticSearchClientProperties.getElasticPassword());
             credentialsProvider.setCredentials(AuthScope.ANY, usernamePasswordCredentials);
             httpAsyncClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
 
-            File trustStoreLocationFile = new File(TRUST_STORE_LOCATION);
+            File trustStoreLocationFile = new File(elasticSearchClientProperties.getTrustStoreLocation());
             SSLContextBuilder sslContextBuilder = SSLContexts.custom().loadTrustMaterial(trustStoreLocationFile,
-                    PASSWORD_STRING.toCharArray());
+                    elasticSearchClientProperties.getTrustStorePassword().toCharArray());
             SSLContext sslContext = sslContextBuilder.build();
             httpAsyncClientBuilder.setSSLContext(sslContext);
         } catch (Exception e) {

@@ -4,24 +4,31 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
+import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration class for defining beans required for setting up Elasticsearch client.
+ */
 @Configuration
+@RequiredArgsConstructor
 public class ElasticsearchClientConfiguration {
 
-    private static final String LOCALHOST_HOSTNAME = "localhost";
-    private static final int PORT = 9200;
+    private final ElasticSearchClientProperties elasticSearchClientProperties;
     private static final String HTTPS_SCHEME = "https";
 
     @Bean
     public ElasticsearchClient elasticsearchClient() {
-        RestClientBuilder restClientBuilder = RestClient.builder(new HttpHost(LOCALHOST_HOSTNAME, PORT, HTTPS_SCHEME));
+        RestClientBuilder restClientBuilder =
+                RestClient.builder(new HttpHost(elasticSearchClientProperties.getHostName(),
+                        elasticSearchClientProperties.getPort(), HTTPS_SCHEME));
 
-        RestClientBuilder.HttpClientConfigCallback httpClientConfigCallback = new HttpClientConfigCallbackImpl();
+        RestClientBuilder.HttpClientConfigCallback httpClientConfigCallback = new HttpClientConfigCallbackImpl
+                (elasticSearchClientProperties);
         restClientBuilder.setHttpClientConfigCallback(httpClientConfigCallback);
 
         RestClient restClient = restClientBuilder.build();

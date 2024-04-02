@@ -5,44 +5,40 @@ import co.elastic.clients.elasticsearch._types.ErrorCause;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
-import com.shopcompare.elasticsearch.client.commons.model.Product;
-import com.shopcompare.elasticsearch.client.commons.model.ProductsDocument;
+import com.shopcompare.elasticsearch.client.commons.model.Category;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Elasticsearch client service that indexes products.
+ * Elasticsearch client service that indexes categories.
  */
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ElasticsearchClientProduct {
-
-    private static final String PRODUCTS_INDEX = "products";
+public class ElasticsearchClientCategory {
+    private static final String CATEGORIES_INDEX = "categories";
     private final ElasticsearchClient elasticsearchClient;
 
     /**
-     * Transforms the map of list of {@link Product} into {@link ProductsDocument} and performs bulk index of
-     * {@link ProductsDocument}.
+     * Inserts given categories in elasticsearch categories index.
      *
-     * @param products
-     * @throws IOException
+     * @param categories list of {@link Category}.
+     *
+     * @throws IOException in case of error during bulk index.
      */
-    public void indexProductData(Map<String, List<Product>> products) throws IOException {
+    public void indexCategoriesData(List<Category> categories) throws IOException {
         BulkRequest.Builder br = new BulkRequest.Builder();
 
-        for (Map.Entry<String, List<Product>> productEntry : products.entrySet()) {
-            ProductsDocument productsDocument = new ProductsDocument(productEntry.getKey(), productEntry.getValue());
+        for (Category category : categories) {
             br.operations(op -> op
                     .index(idx -> idx
-                            .index(PRODUCTS_INDEX)
-                            .id(productEntry.getKey())
-                            .document(productsDocument)
+                            .index(CATEGORIES_INDEX)
+                            .id(category.name())
+                            .document(category)
 
                     )
             );
